@@ -1,5 +1,12 @@
 import React from 'react'
-import {StyledLogin, StyledContainer, StyledForm, StyledButton, StyledInput, StyledHeader} from './style'
+import {
+    StyledLogin,
+    StyledContainer,
+    StyledForm,
+    StyledButton,
+    StyledInput,
+    StyledHeader
+} from './style'
 import { HiOutlineLogin } from 'react-icons/hi'
 
 function SignIn() {
