@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     StyledLogin,
     StyledContainer,
@@ -8,12 +8,15 @@ import {
     StyledHeader
 } from './style'
 import { HiOutlineLogin } from 'react-icons/hi'
-import { login } from '../../features/user/userSlices'
+import { login, reset } from '../../features/user/userSlices'
 import { useDispatch, useSelector } from 'react-redux'
+import Notification from '../../components/notification/Notification'
+import { useNavigate } from 'react-router-dom'
 
 function SignIn() {
     const dispatch = useDispatch()
-    const { user, error, message, loading } = useSelector(state => state.user)
+    const navigate = useNavigate()
+    const { user, error, message, loading, success } = useSelector(state => state.user)
 
     const formValue = {
         email: '',
@@ -32,21 +35,27 @@ function SignIn() {
     const handleLogin = (evt) => {
         evt.preventDefault()
         dispatch(login({email, password}))
-        console.log(user)
     }
+
+    useEffect(() => {
+        if(success || user) {
+            navigate('/feed')
+        }
+        dispatch(reset())
+    }, [])
 
     return (
         <StyledLogin>
             <StyledContainer>
                 <StyledForm onSubmit={handleLogin}>
-                    <p>{message}</p>
                     <StyledHeader>
                         <HiOutlineLogin color="#6C63FF" size={30} />
                         <h2>Sign In for access</h2>
                     </StyledHeader><br/>
+                    {message && <Notification message={message} error={error} />}
                     <StyledInput type="text" name="email" placeholder="Email" value={email} onChange={handleChange} />
                     <StyledInput type="password" name="password" placeholder="Password" value={password} onChange={handleChange} />
-                    <StyledButton>Sign In</StyledButton>
+                    <StyledButton disabled={loading}>{loading ? 'Loading...' : 'Sign In'}</StyledButton>
                     <hr />
                     <h4 style={{ color: '#6C63FF' }}>Join Here</h4>
                     <StyledButton type='submit'>Join Now</StyledButton>

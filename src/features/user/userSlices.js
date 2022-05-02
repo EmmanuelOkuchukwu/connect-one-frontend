@@ -11,6 +11,18 @@ export const login = createAsyncThunk('user/auth', async (credentials, thunkAPI)
         return thunkAPI.rejectWithValue(message)
     }
 })
+export const logout = createAsyncThunk('user/logout', async () => {
+    await AuthService.onLogout()
+})
+
+export const signup = createAsyncThunk('user/signup', async (credentials, thunkAPI) => {
+    try {
+        await AuthService.onSignup(credentials)
+    } catch(err) {
+        const message = (err.response && err.response.data && err.response.data.msg) || err.msg || err.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
 
 const initialState = {
     user: user ? user :
@@ -26,7 +38,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.loading = this.state.loading = false
+            state.loading = state.loading = false
             state.message = state.message = ''
             state.success = state.success = false
             state.error = state.error = false
@@ -42,12 +54,31 @@ export const userSlice = createSlice({
                 state.loading = false
                 state.user = action.payload
                 state.success = true
+                state.error = false
+                state.message = 'Successfully Signed In'
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false
                 state.error = true
                 state.message = action.payload
                 state.user = null
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.user = null
+            })
+            .addCase(signup.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(signup.fulfilled, (state) => {
+                state.error = false
+                state.message = 'Successfully Joined App!'
+                state.loading = false
+                state.success = true
+            })
+            .addCase(signup.rejected, (state, action) => {
+                state.error = true
+                state.message = action.payload
+                state.loading = false
             })
     }
 })
