@@ -42,7 +42,7 @@ function SignIn() {
             navigate('/feed')
         }
         dispatch(reset())
-    }, [])
+    }, [dispatch, user, success])
 
     return (
         <StyledLogin>
@@ -62,7 +62,7 @@ function SignIn() {
                 </StyledForm>
             </StyledContainer>
         </StyledLogin>
-    );
+    )
 }
 
 export default SignIn

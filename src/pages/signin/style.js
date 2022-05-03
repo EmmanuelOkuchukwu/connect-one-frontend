@@ -10,7 +10,7 @@ export const StyledLogin = styled.main`
 export const StyledContainer = styled.div`
   height: 450px;
   width: 390px;
-  box-shadow: 3px 10px 18px ${props => props.theme.LightGrey};
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   border-radius: 5px;
 `
 
