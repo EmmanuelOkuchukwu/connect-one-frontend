@@ -6,8 +6,18 @@ const getAllPosts = async () => {
     return response.data
 }
 
+const deletePost = async (id, token) => {
+    const response = await axios.delete(`${REACT_APP_URL_PATH}/api/post/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    })
+    return response.data
+}
+
 const PostService = {
-    getAllPosts
+    getAllPosts,
+    deletePost
 }
 
 export default PostService

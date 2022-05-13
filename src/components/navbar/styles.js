@@ -4,6 +4,9 @@ export const StyledNav = styled.nav`
   width: 100%;
   padding: 5px;
   background-color: ${props => props.theme.PrimaryColor};
+  position: fixed;
+  z-index: 1000;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 `
 export const StyledWrapper = styled.div`
   display: flex;

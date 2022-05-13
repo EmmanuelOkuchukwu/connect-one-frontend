@@ -17,7 +17,15 @@ export const getPosts = createAsyncThunk('post/getAll', async (data, thunkAPI) =
         return thunkAPI.rejectWithValue(message)
     }
 })
-
+export const removePost = createAsyncThunk('post/delete', async (id, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState()?.user?.user
+        return await PostService.deletePost(id, token)
+    } catch(err) {
+        const message = (err.response && err.response.data && err.response.data.msg) || err.msg || err.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
 
 const postSlice = createSlice({
     name: 'post',
@@ -43,6 +51,22 @@ const postSlice = createSlice({
                 state.success = true
             })
             .addCase(getPosts.rejected, (state, action) => {
+                state.loading = false
+                state.posts = []
+                state.error = true
+                state.message = action.payload
+            })
+
+            .addCase(removePost.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(removePost.fulfilled, (state, action) => {
+                state.loading = false
+                state.posts = state.posts.filter(post => post.id !== action.payload.id)
+                state.message = 'Posts removed successfully!'
+                state.success = true
+            })
+            .addCase(removePost.rejected, (state, action) => {
                 state.loading = false
                 state.posts = []
                 state.error = true

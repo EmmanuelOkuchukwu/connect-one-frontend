@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { StyledPostCard, StyledPostCardHeader, StyledPostCardBody, StyledPostCardFooter } from './style'
 import { VscAccount, VscTrash, VscStarEmpty, VscStarFull, VscComment, VscBookmark } from 'react-icons/vsc'
+import { useDispatch } from 'react-redux'
+import { removePost } from '../../features/post/postSlices'
 
 const PostCard = ({ post }) => {
+    const dispatch = useDispatch()
     return (
         <StyledPostCard>
             <StyledPostCardHeader>
@@ -11,7 +14,7 @@ const PostCard = ({ post }) => {
                     <p>jfdhsjofd</p>
                 </div>
                 <div>
-                    <VscTrash size={30} cursor='pointer' />
+                    <VscTrash size={30} cursor='pointer' onClick={() => dispatch(removePost(post.id))} />
                 </div>
             </StyledPostCardHeader>
             <StyledPostCardBody>

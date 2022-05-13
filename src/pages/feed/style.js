@@ -15,19 +15,22 @@ export const StyledAside = styled.div`
   height: 100vh;
   background-color: ${props => props.theme.PrimaryColor};
   border-top: 1px solid ${props => props.theme.LightColor};
+  position: fixed;
+  right: auto;
+  left: 0;
 `
 
 export const StyledMain = styled.div`
   width: 50%;
   // background-color: ${props => props.theme.PrimaryColor};
   height: 100%;
+  margin: 60px auto;
 `
 
-export const StyledAside2 = styled.div`
-  width: 15%;
-  background-color: ${props => props.theme.PrimaryColor};
-  height: 100vh;
-  border-top: 1px solid ${props => props.theme.LightColor};
+export const StyledAside2 = styled(StyledAside)`
+  position: fixed;
+  left: auto;
+  right: 0;
 `
 
 export const StyledForm = styled.form`
